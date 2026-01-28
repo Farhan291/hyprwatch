@@ -13,7 +13,7 @@ std::string get_path() {
     exit(1);
   }
   std::string path =
-      std::string(xdg_dir) + "/hypr/" + std::string(his) + "/.socket.sock";
+      std::string(xdg_dir) + "/hypr/" + std::string(his) + "/.socket2.sock";
 
   return path;
 }
