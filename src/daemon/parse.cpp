@@ -1,4 +1,5 @@
 #include "parse.hpp"
+#include "time_track.hpp"
 #include <iostream>
 #include <string>
 #include <sys/socket.h>
@@ -14,16 +15,24 @@ HYPR_EVENT hash_event(const std::string &name) {
   return HYPR_EVENT::IGNORE;
 }
 
-void handle_active(const std::string &payload) {
+void handle_active(const std::string &payload, Daemon_state s) {
   if (payload.empty() || payload == ",") {
-    std::cout << "[FOCUS]  (Empty Workspace)\n";
+    time_t now = time(nullptr);
+    time_t delta = now - s.last_switch_time;
+    if (!s.active_window_class.empty()) {
+      s.window_time_seconds[s.active_window_class] += delta;
+    }
+    s.active_window_class.clear();
+    s.last_switch_time = now;
     return;
   }
   auto split = payload.find(',');
   std::string window_class = payload.substr(0, split);
   std::string window_title = payload.substr(split + 1);
-  std::cout << "[FOCUS] " << "[class] " << window_class << " [titles] "
-            << window_title << "\n";
+  on_focus_change(window_class, s);
+  /* for (auto &i : s.window_time_seconds) {
+     std::cout << i.first << " " << i.second << "\n";
+   }*/
 }
 
 void handle_open(const std::string &payload) {
@@ -41,11 +50,12 @@ void handle_open(const std::string &payload) {
             << window_title << "\n";
 }
 
-void parse(const std::string &event, const std::string &payload) {
+void parse(const std::string &event, const std::string &payload,
+           Daemon_state s) {
   HYPR_EVENT event_id = hash_event(event);
   switch (event_id) {
   case HYPR_EVENT::ACTIVE_WINDOW:
-    handle_active(payload);
+    handle_active(payload, s);
     break;
   case HYPR_EVENT::WORKSPACE:
     std::cout << "[WS SWITCH] " << payload << "\n";

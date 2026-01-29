@@ -1,4 +1,5 @@
 #pragma once
+#include "time_track.hpp"
 #include <string>
 #include <unordered_map>
 
@@ -10,6 +11,16 @@ enum class HYPR_EVENT {
   FULLSCREEN,
   IGNORE
 };
+struct ActiveWindowState {
+  std::string window_class;
+  std::string window_title;
+};
+
+struct GlobalState {
+  ActiveWindowState active;
+  std::string current_workspace;
+};
+
 inline const std::unordered_map<std::string, HYPR_EVENT> event_map = {
     {"workspace", HYPR_EVENT::WORKSPACE},
     {"activewindow", HYPR_EVENT::ACTIVE_WINDOW},
@@ -17,4 +28,5 @@ inline const std::unordered_map<std::string, HYPR_EVENT> event_map = {
     {"closewindow", HYPR_EVENT::CLOSE_WINDOW},
     {"fullscreen", HYPR_EVENT::FULLSCREEN}};
 
-void parse(const std::string &event, const std::string &payload);
+void parse(const std::string &event, const std::string &payload,
+           Daemon_state s);

@@ -1,4 +1,4 @@
-#include "unix_socket.hpp"
+#include "client_socket.hpp"
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -20,7 +20,7 @@ int unixsocket::create_socket() {
   std::strncpy(addr.sun_path, path.c_str(), sizeof(addr.sun_path) - 1);
 
   if (connect(sd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-    std::cerr << "Failed to connect to Hyprland at: " << path << std::endl;
+    std::cerr << "Failed to connect to at: " << path << std::endl;
     close(sd);
     sd = -1;
     return -1;
