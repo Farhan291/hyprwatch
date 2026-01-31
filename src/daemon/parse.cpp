@@ -1,6 +1,5 @@
 #include "parse.hpp"
 #include "time_track.hpp"
-#include <iostream>
 #include <string>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -15,7 +14,7 @@ HYPR_EVENT hash_event(const std::string &name) {
   return HYPR_EVENT::IGNORE;
 }
 
-void handle_active(const std::string &payload, Daemon_state s) {
+void handle_active(const std::string &payload, Daemon_state &s) {
   if (payload.empty() || payload == ",") {
     time_t now = time(nullptr);
     time_t delta = now - s.last_switch_time;
@@ -26,15 +25,11 @@ void handle_active(const std::string &payload, Daemon_state s) {
     s.last_switch_time = now;
     return;
   }
+
   auto split = payload.find(',');
   std::string window_class = payload.substr(0, split);
-  std::string window_title = payload.substr(split + 1);
   on_focus_change(window_class, s);
-  /* for (auto &i : s.window_time_seconds) {
-     std::cout << i.first << " " << i.second << "\n";
-   }*/
 }
-
 void handle_open(const std::string &payload) {
   auto split1 = payload.find(',');
   auto split2 = payload.find(',', split1 + 1);
@@ -44,30 +39,32 @@ void handle_open(const std::string &payload) {
       payload.substr(split1 + 1, split2 - split1 - 1);
   std::string window_class = payload.substr(split2 + 1, split3 - split2 - 1);
   std::string window_title = payload.substr(split3 + 1);
-
-  std::cout << "[OPEN] " << "[WA]" << window_address << " [WS_N] "
-            << windowspace_name << " [class] " << window_class << " [title] "
-            << window_title << "\n";
+  /*
+    std::cout << "[OPEN] " << "[WA]" << window_address << " [WS_N] "
+              << windowspace_name << " [class] " << window_class << " [title] "
+              << window_title << "\n";*/
 }
 
 void parse(const std::string &event, const std::string &payload,
-           Daemon_state s) {
+           Daemon_state &s) {
   HYPR_EVENT event_id = hash_event(event);
   switch (event_id) {
   case HYPR_EVENT::ACTIVE_WINDOW:
     handle_active(payload, s);
     break;
+
   case HYPR_EVENT::WORKSPACE:
-    std::cout << "[WS SWITCH] " << payload << "\n";
+    // some plan later with this info
+    // std::cout << "[WS SWITCH] " << payload << "\n";
     break;
   case HYPR_EVENT::OPEN_WINDOW:
-    handle_open(payload);
+    // handle_open(payload);
     break;
   case HYPR_EVENT::CLOSE_WINDOW:
-    std::cout << "[CLOSE] " << payload << "\n";
+    // std::cout << "[CLOSE] " << payload << "\n";
     break;
   case HYPR_EVENT::FULLSCREEN:
-    std::cout << "[FULLSCREEN] " << payload << "\n";
+    // std::cout << "[FULLSCREEN] " << payload << "\n";
     break;
   case HYPR_EVENT::IGNORE:
     break;

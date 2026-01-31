@@ -28,5 +28,7 @@ inline const std::unordered_map<std::string, HYPR_EVENT> event_map = {
     {"closewindow", HYPR_EVENT::CLOSE_WINDOW},
     {"fullscreen", HYPR_EVENT::FULLSCREEN}};
 
+void handle_active(const std::string &payload, Daemon_state &s);
+
 void parse(const std::string &event, const std::string &payload,
-           Daemon_state s);
+           Daemon_state &s);

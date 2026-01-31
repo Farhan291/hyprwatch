@@ -40,7 +40,7 @@ int main() {
   fds[1].events = POLLIN;
   fds[1].revents = 0;
   while (true) {
-    int ret = poll(fds, 2, 0);
+    int ret = poll(fds, 2, -1);
     if (ret < 0) {
       perror("poll");
       break;
