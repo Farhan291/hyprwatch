@@ -1,1 +1,17 @@
 *.out
+
+# ===== Build directories =====
+build/
+build-*/
+cmake-build-*/
+
+# ===== CMake generated files =====
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+
+# Executables
+hyprwatch
+hyprwatchd
+
