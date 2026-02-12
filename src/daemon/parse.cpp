@@ -28,7 +28,8 @@ void handle_active(const std::string &payload, Daemon_state &s) {
 
   auto split = payload.find(',');
   std::string window_class = payload.substr(0, split);
-  on_focus_change(window_class, s);
+  std::string window_title = payload.substr(split + 1);
+  on_focus_change(window_class, window_title, s);
 }
 void handle_open(const std::string &payload) {
   auto split1 = payload.find(',');
