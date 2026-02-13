@@ -12,4 +12,3 @@ struct Daemon_state {
 void on_focus_change(const std::string &new_clas, const std::string &new_title,
                      Daemon_state &s);
 void flush_active_app(Daemon_state &s);
-std::string serialize(const Daemon_state &s);

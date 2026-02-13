@@ -1,6 +1,7 @@
 #include "client_socket.hpp"
 #include "connect.hpp"
 #include "parse.hpp"
+#include "serialize.hpp"
 #include "server_socket.hpp"
 #include "time_track.hpp"
 #include <iostream>
