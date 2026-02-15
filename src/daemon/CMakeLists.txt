@@ -5,6 +5,7 @@ connect.cpp
 parse.cpp
 server_socket.cpp
 time_track.cpp
+serialize.cpp
 )
 
 install(TARGETS hyprwatchd RUNTIME DESTINATION bin )

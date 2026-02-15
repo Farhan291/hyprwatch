@@ -1,5 +1,5 @@
-#pragma once
 #include "serialize.hpp"
+#include <string>
 
 std::string serialize(const Daemon_state &s) {
   std::string out;
