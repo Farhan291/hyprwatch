@@ -22,8 +22,10 @@ struct window_data {
 };
 
 struct app_state {
+  std::string latest_message = "Waiting for daemon";
   std::mutex mutex;
   bool should_exit = false;
 };
 
 window_data parser(const std::string &payload);
+std::string formatDuration(long long seconds);
