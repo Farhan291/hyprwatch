@@ -1,0 +1,11 @@
+[Unit]
+Description=Hyprwatch daemon
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/hyprwatchd
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

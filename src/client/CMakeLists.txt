@@ -6,7 +6,7 @@ add_executable(hyprwatch
 )
 
 install(TARGETS hyprwatch
-  RUNTIME DESTINATION bin
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 find_package(Curses REQUIRED)
