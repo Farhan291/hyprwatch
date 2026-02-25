@@ -28,18 +28,23 @@ A lightweight time tracking daemon and TUI client for Hyprland window manager.
 ### Arch Linux
 
 ```bash
+# Build from source
 sudo pacman -S base-devel cmake ncurses git
 git clone https://github.com/Farhan291/hyprwatch.git && cd hyprwatch
 cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 sudo cmake --install build --prefix /usr/local
+```
 
-# Enable systemd service
-systemctl --user daemon-reload
-systemctl --user enable --now hyprwatchd
+#### AUR
 
-# Run client
-hyprwatch
+```bash
+# Using yay
+yay -S hyprwatch
+
+# Or build manually
+git clone https://aur.archlinux.org/hyprwatch.git && cd hyprwatch
+makepkg -si
 ```
 
 ### Ubuntu/Debian
